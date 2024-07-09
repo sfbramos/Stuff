@@ -1,0 +1,42 @@
+spring:
+
+  security:
+    jwt:
+      token:
+        secret-key: 074496e2a22d7b56e8015984b3a07491b44f04f7eed7cb52497c07ff65bdc03b
+        expiration-time: 1440000
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres?createDatabaseIfNotExist=true
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+    schema: jwt_security
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+      show-sql: false
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        dialect: ${spring.jpa.database-platform}
+        default-schema: ${spring.datasource.schema}
+        format-sql: false
+
+  liquibase:
+    enabled: true
+    change-log: classpath:/database/liquibase/master-changelog.yaml
+    default-schema: ${spring.datasource.schema}
+    databaseChangeLogLockTable: liquibasechangeloglock
+    databaseChangeLogTable: liquibasechangelog
+
+  logging:
+    level:
+      "liquibase": info
+
+preliquibase:
+  enabled: true
+  sqlScriptReferences: classpath:/database/liquibase/scripts/pre/
+
